@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+  <title>5-minute Self Destructing Window</title>
+  <style>
+    /* https://stackoverflow.com/questions/7049875/height100-not-working */
+    * { padding: 0; margin: 0; }
+    html, body {
+      min-height: 100% !important;
+      height: 100%;
+    }
+    body {
+      background-color: rgb(21, 87, 163);
+    }
+    .flex {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    h1 {
+      color: rgb(196, 235, 251);
+      font-size: 2.6em;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+    a {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-family: Courier, monospace;
+      font-size: 1em;
+      text-decoration: none;
+      color: rgb(196, 235, 251);
+    }
+  </style>
+  <script>
+    var windows = []
+    var openDestructingWindow = function () {
+      windows.push(window.open(null, '_blank'))
+      setTimeout(function () {
+        windows.shift().close()
+      }, 5 * 60 * 1000)
+    }
+    window.addEventListener('beforeunload', function () {
+      windows.forEach(function (w) {
+        w.close()
+      })
+    })
+  </script>
+</head>
+<body>
+  <!-- Inspired by http://www.takeafive.com/ -->
+  <div class="flex" onclick="openDestructingWindow()">
+    <h1>5-minute Self Destructing Window</h1>
+  </div>
+  <a href="https://github.com/malonehedges/self-destruct">code by @malonehedges</a>
+</body>
+</html>
